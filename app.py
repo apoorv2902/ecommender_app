@@ -55,18 +55,46 @@ movies_list = pd.DataFrame(movies_list)
 similarity = pickle.load(open('dependencies/similarity.pkl', 'rb'))
 
 # Streamlit app
-st.title('Movie Recommender System')
+st.set_page_config(page_title="Movie Recommender System", layout="wide", initial_sidebar_state="expanded")
+st.title('🎬 Movie Recommender System')
+st.markdown("""
+    Welcome to the Movie Recommender System! 🎥🍿
+    Select a movie from the dropdown below, and top 5 similar movies are recommended for you to enjoy.
+""")
+
+st.markdown(
+    """
+    <style>
+    .main {
+        background: linear-gradient(135deg, #003366, #000000);  /* Dark Blue to Black Gradient */
+        color: #ffffff;  /* White text color for contrast */
+    }
+    .sidebar .sidebar-content {
+        background: #1a1a1a;  /* Dark Gray background for sidebar */
+        color: #ffffff;  /* White text color for sidebar */
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 selected_movie_name = st.selectbox(
     'Select a movie:',
-    movies_list['title'].values
+    movies_list['title'].values,
+    index=0  # Set default selected movie
 )
 
-if st.button("Recommend"):
-    names, posters = recommend(selected_movie_name)
-    # Create columns for the images
-    cols = st.columns(5)
+if st.button("Get Recommendations"):
+    with st.spinner('Fetching movie recommendations...'):
+        names, posters = recommend(selected_movie_name)
+    
+    # Display recommendations
+    st.subheader(f"Top 5 recommendations based on '{selected_movie_name}':")
+
+    cols = st.columns(5, gap="large")
     for i in range(5):
         with cols[i]:
-            st.subheader(names[i])
-            st.image(posters[i])
+            st.image(posters[i], width=150)
+            st.write(f"**{names[i]}**")
+
+   
