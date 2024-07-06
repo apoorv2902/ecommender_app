@@ -74,7 +74,7 @@ st.markdown(
     """
     <style>
     .main {
-        background: linear-gradient(135deg, #003366, #000000);  /* Dark Blue to Black Gradient */
+        background: linear-gradient(135deg, #003366 25%, #000000 50%, #8b0000 75%);  /* Dark Blue, Black, and Red Gradient */
         color: #ffffff;  /* White text color for contrast */
     }
     .sidebar .sidebar-content {
@@ -93,7 +93,7 @@ selected_movie_name = st.selectbox(
 )
 
 if st.button("Get Recommendations"):
-    with st.spinner('Fetching movie recommendations...'):
+    with st.spinner('Fetching movie recommendations.....'):
         names, posters = recommend(selected_movie_name)
     
     # Display recommendations
@@ -106,3 +106,10 @@ if st.button("Get Recommendations"):
             movie_name = names[i]
             search_url = f"https://www.google.com/search?q={movie_name.replace(' ', '+')}"
             st.markdown(f"[**{movie_name}**]({search_url})")
+
+st.markdown("""
+    ---
+    Developed by Apoorv Aggarwal
+            
+    """)
+st.markdown(f"[LinkedIn](https://www.linkedin.com/in/apoorv-aggarwal-2902/)")
