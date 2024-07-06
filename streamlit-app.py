@@ -103,4 +103,6 @@ if st.button("Get Recommendations"):
     for i in range(5):
         with cols[i]:
             st.image(posters[i], width=150)
-            st.write(f"**{names[i]}**")
+            movie_name = names[i]
+            search_url = f"https://www.google.com/search?q={movie_name.replace(' ', '+')}"
+            st.markdown(f"[**{movie_name}**]({search_url})")
