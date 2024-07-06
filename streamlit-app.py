@@ -104,7 +104,7 @@ if st.button("Get Recommendations"):
         with cols[i]:
             st.image(posters[i], width=150)
             movie_name = names[i]
-            search_url = f"https://www.google.com/search?q={movie_name.replace(' ', '+')}"
+            search_url = f"https://www.google.com/search?q={movie_name.replace(' ', '+')}-movie"
             st.markdown(f"[**{movie_name}**]({search_url})")
 
 st.markdown("""
