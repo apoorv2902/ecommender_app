@@ -1,10 +1,10 @@
 import streamlit as st
+import sklearn
+from sklearn.neighbors import NearestNeighbors
 import pickle
 import pandas as pd
 import requests
 import time
-import sklearn
-from sklearn.neighbors import NearestNeighbors
 
 # Function to fetch movie poster URL
 def fetch_movie_poster(movie_id):
@@ -33,7 +33,9 @@ def recommend(movie):
     Function to return top 5 recommended movies
     """
     movie_idx = movies_list[movies_list['title'] == movie].index[0]
-    distances, indices = knn.kneighbors(vectors[movie_idx])
+    movie_vector = vectors[movie_idx].reshape(1, -1)  # Ensure the input is a 2D array
+    
+    distances, indices = knn.kneighbors(movie_vector)
     
     # Exclude the first result which is the movie itself
     movie_indices = indices[0][1:]
@@ -58,8 +60,7 @@ movies_list = pd.DataFrame(movies_list)
 vectors = pickle.load(open('dependencies/vectors.pkl', 'rb'))
 
 # Load the knn object
-with open('dependencies/knn.pkl', 'rb') as f:
-    knn = pickle.load(f)
+knn = pickle.load(open('dependencies/knn.pkl', 'rb'))
 
 # Streamlit app
 st.set_page_config(page_title="Movie Recommender System", layout="wide", initial_sidebar_state="expanded")
